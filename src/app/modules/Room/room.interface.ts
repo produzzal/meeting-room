@@ -1,6 +1,6 @@
 export type TRoom = {
   name: string;
-  roomNo: string;
+  roomNo: number;
   floorNo: number;
   capacity: number;
   pricePerSlot: number;
