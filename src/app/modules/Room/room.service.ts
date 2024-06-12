@@ -11,7 +11,13 @@ const getAllRoomsFromDB = async () => {
   return result;
 };
 
+const getSingleRoomFromDB = async (id: string) => {
+  const result = await Room.findById(id);
+  return result;
+};
+
 export const RoomServices = {
   createRoomIntoDB,
   getAllRoomsFromDB,
+  getSingleRoomFromDB,
 };
