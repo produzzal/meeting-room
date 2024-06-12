@@ -4,6 +4,7 @@ import { RoomServices } from './room.service';
 import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status';
 
+//create room
 const createRoom = catchAsync(async (req: Request, res: Response) => {
   const result = await RoomServices.createRoomIntoDB(req.body);
   sendResponse(res, {
@@ -14,6 +15,7 @@ const createRoom = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+//get all rooms
 const getAllRooms = catchAsync(async (req: Request, res: Response) => {
   const result = await RoomServices.getAllRoomsFromDB();
   sendResponse(res, {
@@ -24,6 +26,7 @@ const getAllRooms = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+//get single room
 const getSingleRoom = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const result = await RoomServices.getSingleRoomFromDB(id);
@@ -35,6 +38,7 @@ const getSingleRoom = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+//update room
 const updateRoom = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const result = await RoomServices.updateRoomIntoDB(req.body, id);
@@ -46,9 +50,22 @@ const updateRoom = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+//delete room
+const deleteRoom = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await RoomServices.deleteRoomFromDB(id);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Room deleted successfully',
+    data: result,
+  });
+});
+
 export const RoomControllers = {
   createRoom,
   getAllRooms,
   getSingleRoom,
   updateRoom,
+  deleteRoom,
 };
