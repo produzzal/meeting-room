@@ -13,7 +13,19 @@ const roomValidationSchema = z.object({
     isDeleted: z.boolean().optional(),
   }),
 });
+const updateRoomValidationSchema = z.object({
+  body: z.object({
+    name: z.string().optional(),
+    roomNo: z.number().optional(),
+    floorNo: z.number().optional(),
+    capacity: z.number().optional(),
+    pricePerSlot: z.number().optional(),
+    amenities: z.array(z.string()).optional(),
+    isDeleted: z.boolean().optional(),
+  }),
+});
 
 export const RoomValidations = {
   roomValidationSchema,
+  updateRoomValidationSchema,
 };

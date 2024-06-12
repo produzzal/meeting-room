@@ -15,9 +15,16 @@ const getSingleRoomFromDB = async (id: string) => {
   const result = await Room.findById(id);
   return result;
 };
+const updateRoomIntoDB = async (payload: TRoom, id: string) => {
+  const result = await Room.findByIdAndUpdate(id, payload, {
+    new: true,
+  });
+  return result;
+};
 
 export const RoomServices = {
   createRoomIntoDB,
   getAllRoomsFromDB,
   getSingleRoomFromDB,
+  updateRoomIntoDB,
 };

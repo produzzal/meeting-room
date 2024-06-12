@@ -15,6 +15,7 @@ router.post(
 );
 
 router.get('/', RoomControllers.getAllRooms);
-router.get('/:id', RoomControllers.getAllRooms);
+router.get('/:id', RoomControllers.getSingleRoom);
+router.put('/:id', auth(USER_ROLE.admin), RoomControllers.updateRoom);
 
 export const RoomRoutes = router;
