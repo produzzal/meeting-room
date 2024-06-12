@@ -5,14 +5,24 @@ import config from '../../config';
 
 const bcrypt = require('bcrypt');
 
-const userSchema = new Schema<TUser>({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  phone: { type: String, required: true },
-  address: { type: String, required: true },
-  role: { type: String, required: true, enum: Object.keys(USER_ROLE) },
-});
+const userSchema = new Schema<TUser>(
+  {
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true, select: false },
+    phone: { type: String, required: true },
+    address: { type: String, required: true },
+    role: { type: String, required: true, enum: Object.keys(USER_ROLE) },
+  },
+  {
+    toJSON: {
+      transform(doc, ret) {
+        delete ret.password;
+        return ret;
+      },
+    },
+  },
+);
 
 //hashing password
 userSchema.pre('save', async function (next) {
