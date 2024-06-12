@@ -14,4 +14,6 @@ router.post(
   RoomControllers.createRoom,
 );
 
+router.get('/', RoomControllers.getAllRooms);
+
 export const RoomRoutes = router;
