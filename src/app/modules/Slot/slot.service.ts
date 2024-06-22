@@ -1,4 +1,4 @@
-import { TSlot } from './slot.interface';
+import { TGetAvailableSlots, TSlot } from './slot.interface';
 import { Slot } from './slot.model';
 
 const createSlotsIntoDB = async (param: TSlot): Promise<TSlot[]> => {
@@ -44,6 +44,24 @@ const createSlotsIntoDB = async (param: TSlot): Promise<TSlot[]> => {
   return result;
 };
 
+export const getAvailableSlotsFromDB = async (
+  queries: TGetAvailableSlots,
+): Promise<TSlot[]> => {
+  const { date, roomId } = queries;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const query: any = { isBooked: false };
+  if (date) {
+    query.date = date;
+  }
+  if (roomId) {
+    query.room = roomId;
+  }
+
+  const slots = await Slot.find(query).populate('room');
+  return slots;
+};
+
 export const SlotsServices = {
   createSlotsIntoDB,
+  getAvailableSlotsFromDB,
 };

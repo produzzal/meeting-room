@@ -7,3 +7,8 @@ export type TSlot = {
   endTime: string;
   isBooked: boolean;
 };
+
+export type TGetAvailableSlots = {
+  date?: string;
+  roomId?: string;
+};
