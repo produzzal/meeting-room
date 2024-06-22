@@ -6,7 +6,7 @@ import sendResponse from '../../utils/sendResponse';
 import { SlotsServices } from './slot.service';
 
 //create slot
-const createSlotsController = catchAsync(
+const createSlots = catchAsync(
   async (req: Request, res: Response): Promise<void> => {
     const result = await SlotsServices.createSlotsIntoDB(req.body);
 
@@ -34,6 +34,6 @@ const getAvailableSlots = catchAsync(
 );
 
 export const SlotsControllers = {
-  createSlotsController,
+  createSlots,
   getAvailableSlots,
 };

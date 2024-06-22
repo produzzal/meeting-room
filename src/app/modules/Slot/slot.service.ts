@@ -29,7 +29,7 @@ const createSlotsIntoDB = async (param: TSlot): Promise<TSlot[]> => {
       .toString()
       .padStart(2, '0')}:${(slotEndMinutes % 60).toString().padStart(2, '0')}`;
 
-    const slot = new Slot({
+    const slot = await Slot.create({
       room,
       date,
       startTime: slotStartTime,
