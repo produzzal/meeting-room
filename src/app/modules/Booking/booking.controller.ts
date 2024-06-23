@@ -27,7 +27,35 @@ const getAllBookings = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// get my bookings
+
+const getMyBookings = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.user._id;
+  const result = await BookingServices.getMyBookingsFromDB(userId);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'User bookings retrieved successfully',
+    data: result,
+  });
+});
+
+//update booking by admin
+
+const updateBooking = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await BookingServices.updateBookingIntoDB(id, req.body);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Booking updated successfully',
+    data: result,
+  });
+});
+
 export const BookingControllers = {
   createBooking,
   getAllBookings,
+  getMyBookings,
+  updateBooking,
 };

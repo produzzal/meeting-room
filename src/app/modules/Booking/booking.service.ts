@@ -2,9 +2,10 @@ import httpStatus from 'http-status';
 import { AppError } from '../../errors/AppError';
 import { Room } from '../Room/room.model';
 import { User } from '../User/user.model';
-import { TBooking } from './booking.interface';
+
 import { Slot } from '../Slot/slot.model';
 import { Booking } from './booking.model';
+import { TBooking } from './booking.interface';
 
 //create booking
 const createBookingIntoDB = async (params: TBooking) => {
@@ -61,7 +62,34 @@ const getAllBookingsFromDB = async () => {
   return result;
 };
 
+//get my bookings
+
+const getMyBookingsFromDB = async (userId: string) => {
+  const result = await Booking.find({ user: userId })
+    .populate('slots')
+    .populate('room');
+  return result;
+};
+
+//update booking by admin
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const updateBookingIntoDB = async (id: string, params: any) => {
+  const { isConfirmed } = params;
+
+  const result = await Booking.findByIdAndUpdate(
+    id,
+    { isConfirmed },
+    {
+      new: true,
+    },
+  );
+  return result;
+};
+
 export const BookingServices = {
   createBookingIntoDB,
   getAllBookingsFromDB,
+  getMyBookingsFromDB,
+  updateBookingIntoDB,
 };

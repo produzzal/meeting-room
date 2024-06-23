@@ -38,7 +38,6 @@ export const auth = (...requiredRoles: (keyof typeof USER_ROLE)[]) => {
           new AppError(httpStatus.FORBIDDEN, 'Access forbidden: Admins only'),
         );
       }
-
       next();
     } catch (err) {
       return next(new AppError(httpStatus.UNAUTHORIZED, 'Invalid token'));
