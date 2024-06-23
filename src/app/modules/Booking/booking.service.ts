@@ -55,7 +55,7 @@ const createBookingIntoDB = async (params: TBooking) => {
 //get all bookings
 
 const getAllBookingsFromDB = async () => {
-  const result = await Booking.find()
+  const result = await Booking.find({ isDeleted: false })
     .populate('slots')
     .populate('room')
     .populate('user');
@@ -87,9 +87,22 @@ const updateBookingIntoDB = async (id: string, params: any) => {
   return result;
 };
 
+// delete booking by admin
+const deleteBookingFromDB = async (id: string) => {
+  const result = await Booking.findByIdAndUpdate(
+    id,
+    { isDeleted: true },
+    {
+      new: true,
+    },
+  );
+  return result;
+};
+
 export const BookingServices = {
   createBookingIntoDB,
   getAllBookingsFromDB,
   getMyBookingsFromDB,
   updateBookingIntoDB,
+  deleteBookingFromDB,
 };

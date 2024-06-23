@@ -53,9 +53,22 @@ const updateBooking = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// delete booking by admin
+const deleteBooking = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await BookingServices.deleteBookingFromDB(id);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Booking deleted successfully',
+    data: result,
+  });
+});
+
 export const BookingControllers = {
   createBooking,
   getAllBookings,
   getMyBookings,
   updateBooking,
+  deleteBooking,
 };
