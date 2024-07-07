@@ -1,12 +1,12 @@
 import httpStatus from 'http-status';
-import { AppError } from '../../errors/AppError';
 import { TUser } from '../User/user.interface';
 import { User } from '../User/user.model';
 
 import { TLoginUser } from './auth.interface';
 import jwt from 'jsonwebtoken';
 import config from '../../config';
-const bcrypt = require('bcrypt');
+import AppError from '../../errors/AppError';
+import bcrypt from 'bcrypt';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const signup = async (payload: TUser): Promise<any> => {

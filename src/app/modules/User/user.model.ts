@@ -18,7 +18,17 @@ const userSchema = new Schema<TUser>(
     toJSON: {
       transform(doc, ret) {
         delete ret.password;
-        return ret;
+        delete ret.__v;
+
+        const orderedRet = {
+          _id: doc._id,
+          name: doc.name,
+          email: doc.email,
+          phone: doc.phone,
+          role: doc.role,
+          address: doc.address,
+        };
+        return orderedRet;
       },
     },
   },

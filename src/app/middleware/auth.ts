@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextFunction, Request, Response } from 'express';
 import catchAsync from '../utils/catchAsync';
-import { AppError } from '../errors/AppError';
 import httpStatus from 'http-status';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../config';
 import { User } from '../modules/User/user.model';
 import { USER_ROLE } from '../modules/User/user.constant';
+import AppError from '../errors/AppError';
 
 export const auth = (...requiredRoles: (keyof typeof USER_ROLE)[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -15,7 +16,7 @@ export const auth = (...requiredRoles: (keyof typeof USER_ROLE)[]) => {
       return next(
         new AppError(
           httpStatus.UNAUTHORIZED,
-          'You are not authorized to access this route',
+          'You have no access to this route',
         ),
       );
     }
@@ -34,10 +35,13 @@ export const auth = (...requiredRoles: (keyof typeof USER_ROLE)[]) => {
       }
 
       if (!requiredRoles.includes(role as keyof typeof USER_ROLE)) {
-        return next(
-          new AppError(httpStatus.FORBIDDEN, 'Access forbidden: Admins only'),
-        );
+        return res.status(httpStatus.FORBIDDEN).json({
+          success: false,
+          statusCode: httpStatus.UNAUTHORIZED,
+          message: 'You have no access to this route',
+        });
       }
+      (req as any).user = user;
       next();
     } catch (err) {
       return next(new AppError(httpStatus.UNAUTHORIZED, 'Invalid token'));

@@ -7,6 +7,7 @@ import httpStatus from 'http-status';
 //create room
 const createRoom = catchAsync(async (req: Request, res: Response) => {
   const result = await RoomServices.createRoomIntoDB(req.body);
+
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,

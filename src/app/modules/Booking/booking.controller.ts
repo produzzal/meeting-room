@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
@@ -7,7 +8,6 @@ import { BookingServices } from './booking.service';
 //create bookings
 const createBooking = catchAsync(async (req: Request, res: Response) => {
   const result = await BookingServices.createBookingIntoDB(req.body);
-
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -30,7 +30,7 @@ const getAllBookings = catchAsync(async (req: Request, res: Response) => {
 // get my bookings
 
 const getMyBookings = catchAsync(async (req: Request, res: Response) => {
-  const userId = req.user._id;
+  const userId = (req as any).user._id;
   const result = await BookingServices.getMyBookingsFromDB(userId);
   sendResponse(res, {
     success: true,
@@ -40,7 +40,7 @@ const getMyBookings = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-//update booking by admin
+// update booking by admin
 
 const updateBooking = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
