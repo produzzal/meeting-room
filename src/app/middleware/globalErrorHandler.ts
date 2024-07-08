@@ -27,25 +27,26 @@ const globalErrorHandler: ErrorRequestHandler = async (err, req, res, next) => {
   try {
     if (err instanceof ZodError) {
       const simplifiedError = handleZodError(err);
-      return res.status(400).json({
-        success: false,
-        message: simplifiedError?.message,
-        errorMessages: simplifiedError?.errorSources,
-      });
+      statusCode = 400;
+      message = simplifiedError?.message;
+      errorMessages = simplifiedError?.errorSources;
     } else if (err?.name === 'ValidationError') {
       const simplifiedError = handleValidationError(err);
+      statusCode = 400;
       message = simplifiedError?.message || 'Validation error';
       errorMessages = simplifiedError?.errorSources || [
         { path: '', message: 'Validation error' },
       ];
     } else if (err?.name === 'CastError') {
       const simplifiedError = handleCastError(err);
+      statusCode = 400;
       message = simplifiedError?.message || 'Cast error';
       errorMessages = simplifiedError?.errorSources || [
         { path: '', message: 'Cast error' },
       ];
     } else if (err?.code === 11000) {
       const simplifiedError = handleDuplicateError(err);
+      statusCode = 400;
       message =
         simplifiedError?.message ||
         `E11000 duplicate key error collection: ${err?.collection?.name} index: ${Object.keys(err?.keyPattern).join('_')} dup key: ${JSON.stringify(err?.keyValue)}`;
@@ -84,7 +85,7 @@ const globalErrorHandler: ErrorRequestHandler = async (err, req, res, next) => {
     errorMessages,
   };
 
-  if (config.node_env === 'development' && message !== 'No Data Found') {
+  if (config.node_env === 'development') {
     response.stack = err.stack;
   }
 

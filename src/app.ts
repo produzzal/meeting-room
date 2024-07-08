@@ -1,4 +1,4 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Application } from 'express';
 import cors from 'cors';
 
 import router from './app/routes';
@@ -14,14 +14,10 @@ app.use(cors());
 
 //applications routes
 app.use('/api', router);
+app.get('/', (req, res) => {
+  res.send('welcome to my project');
+});
 
-//Test route
-const test = async (req: Request, res: Response) => {
-  const a = 10;
-  res.send(a);
-  Promise.reject();
-};
-app.get('/', test);
 app.use(globalErrorHandler);
 app.use(notFound);
 
