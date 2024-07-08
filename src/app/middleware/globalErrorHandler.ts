@@ -85,7 +85,7 @@ const globalErrorHandler: ErrorRequestHandler = async (err, req, res, next) => {
     errorMessages,
   };
 
-  if (config.node_env === 'development') {
+  if (config.node_env === 'development' || config.node_env === 'production') {
     response.stack = err.stack;
   }
 
